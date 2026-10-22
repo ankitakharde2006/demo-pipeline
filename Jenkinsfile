@@ -1,13 +1,14 @@
 pipeline {
   agent any
-  environment {APP_NAME = 'demo'}
   stages {
-    stage("Build") {
-      environment {BUILD_MODE = 'production'}
-      steps {
-        bat 'echo %AP_NAME% %BUILD_MODE%'
-      }
-    }    
+    stage ('checkout') { steps { checkout scm } }
+    stage("Build")     { steps { bat 'build.bat' } } 
+    stage("Test")      { steps { bat 'test.bat' } } 
+    stage("Package")   { steps { bat 'package.bat' } } 
+  } 
+  post {
+    success { archiveArtifacts artifacts: 'dist/**', fingerprint: true }
+    failure { echo 'CI pipeline failed' }
   }
 }
 
