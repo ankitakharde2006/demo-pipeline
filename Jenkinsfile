@@ -4,7 +4,7 @@ pipeline {
     choice(name: 'ENVIRONMENT',choices: ['staging', 'production'])
   }
   stages {
-    stage('Checkout)  {  steps { checkout scm  }  }
+    stage('Checkout')  {  steps { checkout scm  }  }
     stage('Quality')  { parallel  {
       stage('Build')  { steps  {  bat 'echo Build'  }  }
       stage('Lint)  { steps  {  bat 'echo Lint'  }  }  }  }
